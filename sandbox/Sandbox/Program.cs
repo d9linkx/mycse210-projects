@@ -4,10 +4,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Prep1 World!");
-        foreach (var arg in args)
-        {
-            Console.WriteLine($"Argument: {arg}");
-        }
+        Console.WriteLine("Hello Sandbox World!");
     }
 }
