@@ -19,7 +19,7 @@ class Program
 
         // Create a resume instance
         Resume resume = new Resume();
-        resume._name = "Jane Smith";
+        resume._name = "Anderson Chukwuma";
 
         // Add jobs to the resume
         resume._jobs.Add(job1);
