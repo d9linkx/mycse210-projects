@@ -69,8 +69,29 @@ class Program
     {
         return new List<Scripture>
         {
-            new Scripture(new Reference("John", 3, 16), "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."),
-            new Scripture(new Reference("Proverbs", 3, 5, 6), "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.")
+            // Bible Scriptures
+            new Scripture(new Reference("John", 3, 16),
+                "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."),
+            new Scripture(new Reference("Proverbs", 3, 5, 6),
+                "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."),
+            new Scripture(new Reference("Psalm", 23, 1, 2),
+                "The Lord is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters."),
+            new Scripture(new Reference("Romans", 8, 28),
+                "And we know that in all things God works for the good of those who love him, who have been called according to his purpose."),
+            new Scripture(new Reference("Isaiah", 41, 10),
+                "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand."),
+            new Scripture(new Reference("Matthew", 5, 16),
+                "In the same way, let your light shine before others, that they may see your good deeds and glorify your Father in heaven."),
+            new Scripture(new Reference("Philippians", 4, 13),
+                "I can do all things through Christ who strengthens me."),
+            
+            // Book of Mormon Scriptures
+            new Scripture(new Reference("2 Nephi", 2, 25),
+                "Adam fell that men might be; and men are, that they might have joy."),
+            new Scripture(new Reference("Mosiah", 2, 17),
+                "When ye are in the service of your fellow beings ye are only in the service of your God."),
+            new Scripture(new Reference("Ether", 12, 27),
+                "If men come unto me I will show unto them their weakness.")
         };
     }
 
@@ -84,7 +105,7 @@ class Program
             foreach (string line in File.ReadAllLines(filePath))
             {
                 string[] parts = line.Split('|');
-                if (parts.Length == 3)
+                if (parts.Length == 2)
                 {
                     Reference reference = Reference.Parse(parts[0]);
                     scriptures.Add(new Scripture(reference, parts[1]));
