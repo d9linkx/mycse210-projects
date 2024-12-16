@@ -4,6 +4,13 @@ public abstract class Goal
     public string Description { get; set; }
     public int PointsPerCompletion { get; set; }
 
+    public Goal(string name, string description, int pointsPerCompletion)
+    {
+        Name = name;
+        Description = description;
+        PointsPerCompletion = pointsPerCompletion;
+    }
+
     public abstract bool IsComplete();
     public abstract void RecordCompletion();
 }
