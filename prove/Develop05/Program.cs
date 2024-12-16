@@ -14,30 +14,30 @@ class Program
             Console.WriteLine("3. Listing Activity");
             Console.WriteLine("4. Quit");
 
-            string choice = GetValidInput("Enter your choice (1-4): ");
+            string choice = GetValidInput("Choose the one you want (1-4): ");
 
             switch (choice)
             {
                 case "1":
-                    int breathingDuration = GetValidDuration("Enter the duration in seconds: ");
+                    int breathingDuration = GetValidDuration("Enter the duration of this activity in seconds: ");
                     var breathingActivity = new BreathingActivity(breathingDuration);
                     breathingActivity.PerformActivity();
                     break;
                 case "2":
-                    int reflectionDuration = GetValidDuration("Enter the duration in seconds: ");
+                    int reflectionDuration = GetValidDuration("Enter the duration of this activity in seconds: ");
                     var reflectionActivity = new ReflectionActivity(reflectionDuration);
                     reflectionActivity.PerformActivity();
                     break;
                 case "3":
-                    int listingDuration = GetValidDuration("Enter the duration in seconds: ");
+                    int listingDuration = GetValidDuration("Enter the duration of this activity in seconds: ");
                     var listingActivity = new ListingActivity(listingDuration);
                     listingActivity.PerformActivity();
                     break;
                 case "4":
-                    Console.WriteLine("Thank you for using the program! Have a peaceful day.");
+                    Console.WriteLine("Thank you for using this program! Have a peaceful day.");
                     return;
                 default:
-                    Console.WriteLine("Invalid choice. Please try again.");
+                    Console.WriteLine("You've made an invalid choice. Please try again.");
                     break;
             }
         }
