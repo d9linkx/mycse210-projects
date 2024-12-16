@@ -1,36 +1,28 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
 
-namespace EternalQuest
+public class Program
 {
-    class Program
+    public static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            GoalManager goalManager = new GoalManager();
+        User user = new User("John Doe");
 
-            // Add goals to the manager
-            goalManager.AddGoal(new SimpleGoal("Run a Marathon", "Complete a full marathon", 1000));
-            goalManager.AddGoal(new EternalGoal("Read Scriptures Daily", "Read scriptures daily", 10));
-            goalManager.AddGoal(new ChecklistGoal("Attend Temple", "Attend the temple 10 times", 50, 10));
+        // Example Goals
+        Goal scriptureGoal = new EternalGoal("Read Scriptures", 0);
+        Goal marathonGoal = new SimpleGoal("Run Marathon", 1000);
+        Goal templeGoal = new ChecklistGoal("Attend the Temple", 50, 10, 500);
 
-            // Record completions
-            goalManager.RecordCompletion(0); // Complete the marathon goal
-            goalManager.RecordCompletion(1); // Read scriptures
-            goalManager.RecordCompletion(2); // Attend the temple
+        user.AddGoal(scriptureGoal);
+        user.AddGoal(marathonGoal);
+        user.AddGoal(templeGoal);
 
-            // Display goals and progress
-            foreach (Goal goal in goalManager.Goals)
-            {
-                Console.WriteLine($"Goal: {goal.Name}");
-                Console.WriteLine($"Description: {goal.Description}");
-                Console.WriteLine($"Points per completion: {goal.PointsPerCompletion}");
-                Console.WriteLine($"Is complete: {goal.IsComplete()}");
-                Console.WriteLine();
-            }
+        // Simulate user progress
+        user.RecordGoalProgress("Read Scriptures");
+        user.RecordGoalProgress("Run Marathon");
+        user.RecordGoalProgress("Attend the Temple");
 
-            // Calculate and display total score
-            Console.WriteLine($"Total Score: {goalManager.CalculateScore()}");
-        }
+        // Display User's Progress
+        user.DisplayGoals();
+        user.DisplayTotalPoints();
     }
 }
