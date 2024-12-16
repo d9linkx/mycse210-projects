@@ -1,21 +1,14 @@
-public abstract class BaseGoal
+public abstract class Goal
 {
     public string Name { get; set; }
-    public int Points { get; protected set; }
-    public bool IsComplete { get; protected set; }
+    public int Points { get; set; }
 
-    public BaseGoal(string name)
+    public Goal(string name, int points)
     {
         Name = name;
-        Points = 0;
-        IsComplete = false;
+        Points = points;
     }
 
-    public abstract void RecordGoal();
-    public abstract string GetGoalDetails();
-
-    public void CompleteGoal()
-    {
-        IsComplete = true;
-    }
+    public abstract void RecordEvent();
+    public abstract string GetDetailsString();
 }

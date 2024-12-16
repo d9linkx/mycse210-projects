@@ -1,36 +1,23 @@
-public class ChecklistGoal : BaseGoal
+public class ChecklistGoal : Goal
 {
-    private int _targetCompletions;
-    private int _pointsPerCompletion;
-    private int _bonusPoints;
+    public int TargetCount { get; set; }
+    public int CurrentCount { get; private set; }
+    public int BonusPoints { get; set; }
 
-    private int _currentCompletions;
-
-    public ChecklistGoal(string name, int targetCompletions, int pointsPerCompletion, int bonusPoints) : base(name)
+    public ChecklistGoal(string name, int points, int targetCount, int bonusPoints) : base(name, points)
     {
-        _targetCompletions = targetCompletions;
-        _pointsPerCompletion = pointsPerCompletion;
-        _bonusPoints = bonusPoints;
-        _currentCompletions = 0;
+        TargetCount = targetCount;
+        BonusPoints = bonusPoints;
+        CurrentCount = 0;
     }
 
-    public override void RecordGoal()
+    public override void RecordEvent()
     {
-        if (!IsComplete)
-        {
-            _currentCompletions++;
-            Points += _pointsPerCompletion;
-
-            if (_currentCompletions >= _targetCompletions)
-            {
-                Points += _bonusPoints;
-                CompleteGoal();
-            }
-        }
+        CurrentCount++;
     }
 
-    public override string GetGoalDetails()
+    public override string GetDetailsString()
     {
-        return $"{Name} [{(IsComplete ? "X" : " ")}] Completed {_currentCompletions}/{_targetCompletions} times. Points: {Points}";
+        return $"{Name} - Completed {CurrentCount}/{TargetCount} times - {Points} points each time, {BonusPoints} bonus points on completion";
     }
 }

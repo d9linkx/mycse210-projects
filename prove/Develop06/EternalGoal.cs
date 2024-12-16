@@ -1,22 +1,14 @@
-public class EternalGoal : BaseGoal
+public class EternalGoal : Goal
 {
-    private int _pointsPerRecording;
+    public EternalGoal(string name, int points) : base(name, points) { }
 
-    public EternalGoal(string name, int pointsPerRecording) : base(name)
+    public override void RecordEvent()
     {
-        _pointsPerRecording = pointsPerRecording;
+        // Points are added each time the event is recorded
     }
 
-    public override void RecordGoal()
+    public override string GetDetailsString()
     {
-        if (!IsComplete)
-        {
-            Points += _pointsPerRecording;
-        }
-    }
-
-    public override string GetGoalDetails()
-    {
-        return $"{Name} [ ] Points: {Points}";
+        return $"{Name} - [∞] - {Points} points each time";
     }
 }
