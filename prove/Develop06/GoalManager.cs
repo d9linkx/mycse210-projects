@@ -80,9 +80,8 @@ public class GoalManager
                     }
                     else if (goalType == "ChecklistGoal")
                     {
-                        string[] checklistParts = reader.ReadLine().Split(',');
-                        int targetCompletions = int.Parse(checklistParts[1]);
-                        int currentCompletions = int.Parse(checklistParts[3]);
+                        int targetCompletions = int.Parse(parts[4]);
+                        int currentCompletions = int.Parse(parts[5]);
                         goal = new ChecklistGoal(name, description, points, targetCompletions);
                         ((ChecklistGoal)goal).currentCompletions = currentCompletions;
                     }
