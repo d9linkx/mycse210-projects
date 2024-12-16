@@ -1,14 +1,16 @@
 public class EternalGoal : Goal
 {
-    public EternalGoal(string name, int points) : base(name, points) { }
-
-    public override void RecordEvent()
+    public EternalGoal(string name, string description, int points) : base(name, description, points)
     {
-        // Points are added each time the event is recorded
     }
 
-    public override string GetDetailsString()
+    public override bool IsComplete()
     {
-        return $"{Name} - [∞] - {Points} points each time";
+        return false; // Eternal goals are never truly complete
+    }
+
+    public override void RecordCompletion()
+    {
+        // Implement logic for tracking progress or rewards for repeated completions
     }
 }

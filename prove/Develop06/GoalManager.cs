@@ -1,55 +1,99 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 
 public class GoalManager
 {
-    private List<BaseGoal> _goals;
-    private int _totalPoints;
+    private List<Goal> goals;
+    private int totalScore;
 
     public GoalManager()
     {
-        _goals = new List<BaseGoal>();
-        _totalPoints = 0;
+        goals = new List<Goal>();
+        totalScore = 0;
     }
 
-    public void AddGoal(BaseGoal goal)
+    public void AddGoal(Goal goal)
     {
-        _goals.Add(goal);
+        goals.Add(goal);
     }
 
-    public void RecordGoal(int index)
+    public void RecordCompletion(int index)
     {
-        if (index >= 0 && index < _goals.Count)
+        if (index >= 0 && index < goals.Count)
         {
-            _goals[index].RecordGoal();
-            _totalPoints += _goals[index].Points;
+            goals[index].RecordCompletion();
+            totalScore += goals[index].PointsPerCompletion;
         }
     }
 
-    public void ShowGoals()
+    public int CalculateScore()
     {
-        Console.WriteLine("\nYour Goals:");
-        foreach (var goal in _goals)
+        return totalScore;
+    }
+
+    public List<Goal> GetGoals()
+    {
+        return goals;
+    }
+
+    public void SaveGoals(string filename)
+    {
+        using (StreamWriter writer = new StreamWriter(filename))
         {
-            Console.WriteLine(goal.GetGoalDetails());
+            writer.WriteLine(totalScore);
+            foreach (Goal goal in goals)
+            {
+                writer.WriteLine($"{goal.GetType().Name},{goal.Name},{goal.Description},{goal.PointsPerCompletion}");
+                if (goal is ChecklistGoal checklistGoal)
+                {
+                    writer.WriteLine($"TargetCompletions:{checklistGoal.targetCompletions},CurrentCompletions:{checklistGoal.currentCompletions}");
+                }
+            }
         }
-        Console.WriteLine($"Total Points: {_totalPoints}\n");
     }
 
-    public void SaveGoals(string filePath)
+    public void LoadGoals(string filename)
     {
-        var json = JsonConvert.SerializeObject(_goals, Formatting.Indented);
-        File.WriteAllText(filePath, json);
-    }
-
-    public void LoadGoals(string filePath)
-    {
-        if (File.Exists(filePath))
+        if (File.Exists(filename))
         {
-            var json = File.ReadAllText(filePath);
-            _goals = JsonConvert.DeserializeObject<List<BaseGoal>>(json);
+            using (StreamReader reader = new StreamReader(filename))
+            {
+                totalScore = int.Parse(reader.ReadLine());
+                goals.Clear();
+
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] parts = line.Split(',');
+                    string goalType = parts[0];
+                    string name = parts[1];
+                    string description = parts[2];
+                    int points = int.Parse(parts[3]);
+
+                    Goal goal;
+                    if (goalType == "SimpleGoal")
+                    {
+                        goal = new SimpleGoal(name, description, points);
+                    }
+                    else if (goalType == "EternalGoal")
+                    {
+                        goal = new EternalGoal(name, description, points);
+                    }
+                    else if (goalType == "ChecklistGoal")
+                    {
+                        string[] checklistParts = reader.ReadLine().Split(',');
+                        int targetCompletions = int.Parse(checklistParts[1]);
+                        int currentCompletions = int.Parse(checklistParts[3]);
+                        goal = new ChecklistGoal(name, description, points, targetCompletions);
+                        ((ChecklistGoal)goal).currentCompletions = currentCompletions;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Unknown goal type");
+                    }
+
+                    goals.Add(goal);
+                }
+            }
         }
     }
 }

@@ -1,23 +1,21 @@
 public class ChecklistGoal : Goal
 {
-    public int TargetCount { get; set; }
-    public int CurrentCount { get; private set; }
-    public int BonusPoints { get; set; }
+    private int targetCompletions;
+    private int currentCompletions;
 
-    public ChecklistGoal(string name, int points, int targetCount, int bonusPoints) : base(name, points)
+    public ChecklistGoal(string name, string description, int points, int targetCompletions) : base(name, description, points)
     {
-        TargetCount = targetCount;
-        BonusPoints = bonusPoints;
-        CurrentCount = 0;
+        this.targetCompletions = targetCompletions;
+        currentCompletions = 0;
     }
 
-    public override void RecordEvent()
+    public override bool IsComplete()
     {
-        CurrentCount++;
+        return currentCompletions >= targetCompletions;
     }
 
-    public override string GetDetailsString()
+    public override void RecordCompletion()
     {
-        return $"{Name} - Completed {CurrentCount}/{TargetCount} times - {Points} points each time, {BonusPoints} bonus points on completion";
+        currentCompletions++;
     }
 }

@@ -1,19 +1,19 @@
 public class SimpleGoal : Goal
 {
-    public bool IsComplete { get; private set; }
+    private bool isCompleted;
 
-    public SimpleGoal(string name, int points) : base(name, points)
+    public SimpleGoal(string name, string description, int points) : base(name, description, points)
     {
-        IsComplete = false;
+        isCompleted = false;
     }
 
-    public override void RecordEvent()
+    public override bool IsComplete()
     {
-        IsComplete = true;
+        return isCompleted;
     }
 
-    public override string GetDetailsString()
+    public override void RecordCompletion()
     {
-        return $"{Name} - {(IsComplete ? "[X]" : "[ ]")} - {Points} points";
+        isCompleted = true;
     }
 }

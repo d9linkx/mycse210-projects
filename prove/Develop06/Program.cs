@@ -1,36 +1,29 @@
-using System;
-using System.Collections.Generic;
-
 class Program
 {
     static void Main(string[] args)
     {
-        List<Goal> goals = new List<Goal>();
+        GoalManager goalManager = new GoalManager();
 
-        SimpleGoal goal1 = new SimpleGoal("Run a marathon", 1000);
-        goals.Add(goal1);
+        // Add goals
+        goalManager.AddGoal(new SimpleGoal("Run a Marathon", "Complete a full marathon", 1000));
+        goalManager.AddGoal(new EternalGoal("Read Scriptures Daily", "Read scriptures daily", 10));
+        goalManager.AddGoal(new ChecklistGoal("Attend Temple", "Attend the temple 10 times", 50, 10));
 
-        EternalGoal goal2 = new EternalGoal("Read scriptures", 100);
-        goals.Add(goal2);
+        // Record completions
+        goalManager.RecordCompletion(0); // Complete the marathon goal
+        goalManager.RecordCompletion(1); // Read scriptures
+        goalManager.RecordCompletion(2); // Attend the temple
 
-        ChecklistGoal goal3 = new ChecklistGoal("Attend temple", 50, 10, 500);
-        goals.Add(goal3);
-
-        foreach (Goal goal in goals)
+        // Display goals and progress
+        foreach (Goal goal in goalManager.Goals)
         {
-            Console.WriteLine(goal.GetDetailsString());
+            Console.WriteLine($"Goal: {goal.Name}");
+            Console.WriteLine($"Description: {goal.Description}");
+            Console.WriteLine($"Points per completion: {goal.PointsPerCompletion}");
+            Console.WriteLine($"Is complete: {goal.IsComplete()}");
+            Console.WriteLine();
         }
 
-        // Example of recording events
-        goal1.RecordEvent();
-        goal2.RecordEvent();
-        goal3.RecordEvent();
-        goal3.RecordEvent();
-
-        Console.WriteLine("\nAfter recording events:");
-        foreach (Goal goal in goals)
-        {
-            Console.WriteLine(goal.GetDetailsString());
-        }
+        Console.WriteLine($"Total Score: {goalManager.CalculateScore()}");
     }
 }
