@@ -1,15 +1,22 @@
-public class EternalGoal : Goal
+public class EternalGoal : BaseGoal
 {
-    public EternalGoal(string name, int points) : base(name, points) { }
+    private int _pointsPerRecording;
 
-    public override void RecordProgress()
+    public EternalGoal(string name, int pointsPerRecording) : base(name)
     {
-        Points += 100; // Every time progress is made, you get additional points (example).
-        Console.WriteLine($"You recorded progress for '{Name}'! Total points: {Points}");
+        _pointsPerRecording = pointsPerRecording;
     }
 
-    public override void DisplayGoal()
+    public override void RecordGoal()
     {
-        Console.WriteLine($"[ ] {Name} - Total points: {Points}");
+        if (!IsComplete)
+        {
+            Points += _pointsPerRecording;
+        }
+    }
+
+    public override string GetGoalDetails()
+    {
+        return $"{Name} [ ] Points: {Points}";
     }
 }

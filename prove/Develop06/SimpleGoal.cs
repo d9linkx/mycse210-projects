@@ -1,22 +1,23 @@
-public class SimpleGoal : Goal
+public class SimpleGoal : BaseGoal
 {
-    public SimpleGoal(string name, int points) : base(name, points) { }
+    private int _pointsPerCompletion;
 
-    public override void RecordProgress()
+    public SimpleGoal(string name, int points) : base(name)
     {
-        if (!IsCompleted)
+        _pointsPerCompletion = points;
+    }
+
+    public override void RecordGoal()
+    {
+        if (!IsComplete)
         {
-            IsCompleted = true;
-            Console.WriteLine($"Goal '{Name}' completed! You earned {Points} points.");
-        }
-        else
-        {
-            Console.WriteLine($"Goal '{Name}' is already completed.");
+            Points += _pointsPerCompletion;
+            CompleteGoal();
         }
     }
 
-    public override void DisplayGoal()
+    public override string GetGoalDetails()
     {
-        Console.WriteLine($"[ ] {Name} - {Points} points");
+        return $"{Name} [{(IsComplete ? "X" : " ")}] Points: {Points}";
     }
 }

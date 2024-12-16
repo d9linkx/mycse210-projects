@@ -1,38 +1,36 @@
-public class ChecklistGoal : Goal
+public class ChecklistGoal : BaseGoal
 {
-    private int _timesCompleted;
-    private int _goalCount;
+    private int _targetCompletions;
+    private int _pointsPerCompletion;
     private int _bonusPoints;
 
-    public ChecklistGoal(string name, int points, int goalCount, int bonusPoints) : base(name, points)
+    private int _currentCompletions;
+
+    public ChecklistGoal(string name, int targetCompletions, int pointsPerCompletion, int bonusPoints) : base(name)
     {
-        _goalCount = goalCount;
+        _targetCompletions = targetCompletions;
+        _pointsPerCompletion = pointsPerCompletion;
         _bonusPoints = bonusPoints;
-        _timesCompleted = 0;
+        _currentCompletions = 0;
     }
 
-    public override void RecordProgress()
+    public override void RecordGoal()
     {
-        if (_timesCompleted < _goalCount)
+        if (!IsComplete)
         {
-            _timesCompleted++;
-            Points += 50; // Points for each completion
-            Console.WriteLine($"You recorded progress for '{Name}'! Total points: {Points}");
+            _currentCompletions++;
+            Points += _pointsPerCompletion;
 
-            if (_timesCompleted == _goalCount)
+            if (_currentCompletions >= _targetCompletions)
             {
                 Points += _bonusPoints;
-                Console.WriteLine($"Bonus! You completed '{Name}'! You earned {_bonusPoints} extra points!");
+                CompleteGoal();
             }
-        }
-        else
-        {
-            Console.WriteLine($"Goal '{Name}' is already complete.");
         }
     }
 
-    public override void DisplayGoal()
+    public override string GetGoalDetails()
     {
-        Console.WriteLine($"[ ] {Name} - Completed {_timesCompleted}/{_goalCount} times - {Points} points");
+        return $"{Name} [{(IsComplete ? "X" : " ")}] Completed {_currentCompletions}/{_targetCompletions} times. Points: {Points}";
     }
 }
